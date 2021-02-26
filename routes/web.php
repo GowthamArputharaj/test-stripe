@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\StripeController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Psy\CodeCleaner\UseStatementPass;
+use Stripe\Stripe;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +27,43 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+
+Route::get('subscription/setup-intents', [StripeController::class, 'setupIntents']);
+
+Route::post('subscription/subscribe', [StripeController::class, 'subscribe'])->name('subscription.subscribe');
+
+Route::get('test', function() {
+    // create stripe customer
+
+    $apiKey = env('STRIPE_KEY');
+    $str = Stripe::setApiKey($apiKey);
+
+    try {
+        $options = [
+            'currency' => 'inr'
+        ];
+        $user = User::find(auth()->user()->id)->createAsStripeCustomer();
+        // $userBefore = User::find(1)->paymentMethods();
+
+        // deltes payment methods
+        // $del = User::find(1)->paymentMethods()->map(function($paymentMethod) {
+        //     $paymentMethod->delete();
+        // });
+
+        // $userAfter = User::find(1)->paymentMethods();
+
+        dd($user);
+    } catch (\Exception $e) {
+        
+        dd($e->getMessage());
+    }
+
+
+    
+    // dd($user);
+});
+
+
+
+
