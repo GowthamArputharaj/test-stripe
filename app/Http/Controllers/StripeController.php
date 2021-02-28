@@ -10,8 +10,8 @@ class StripeController extends Controller
 {
     public function setupIntents()
     {
+        // $user_id = 1;
 $user_id = auth()->user()->id;
-// $user_id = 1;
         // $del = User::find($user_id)->paymentMethods()->map(function($paymentMethod) {
         //     $paymentMethod->delete();
         //     // return $paymentMethod;
@@ -21,15 +21,21 @@ $user_id = auth()->user()->id;
 
         $intent = User::find($user_id)->createSetupIntent();
 // dd($intent);
-        return view('stripe.setup-intents-three', compact('intent'));
-        // return view('stripe.setup-intents', compact('intent'));
+        // return view('stripe.setup-intents-three', compact('intent'));
+        return view('stripe.setup-intents', compact('intent'));
     }
 
     public function subscribe(Request $request)
     {
         // dd($request->all());
-        $user_id = 1;
+        // $user_id = 1;
         $user_id = auth()->user()->id;
+
+        // $subscriptionName = 'cashier';
+        // $subscriptionName = 'tshirt';
+        // $subscriptionName = 'sunglasses';
+        // $subscriptionName = 'default';
+        $subscriptionName = 'primary';
 
         // $apiKey = env('STRIPE_KEY');
         // $str = Stripe::setApiKey($apiKey);
@@ -45,8 +51,11 @@ $user_id = auth()->user()->id;
             //     'hashtag', $plan
             // )->create($payment_method);
             $user = User::find($user_id)->newSubscription(
-                'cashier', $plan
+                'tshirt' , $plan
             )->create($payment_method);
+            // $user = $request->user()->newSubscription(
+            //     $subscriptionName , $plan
+            // )->create($payment_method);
             // $options = [
             //     'currency' => 'inr',
             // ];

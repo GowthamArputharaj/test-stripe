@@ -33,6 +33,46 @@ Route::get('subscription/setup-intents', [StripeController::class, 'setupIntents
 
 Route::post('subscription/subscribe', [StripeController::class, 'subscribe'])->name('subscription.subscribe');
 
+
+Route::get("/test-test", function() {
+  
+    $apiKey = env('STRIPE_KEY');
+    $str = Stripe::setApiKey($apiKey);  
+
+
+    
+    try {
+        $options = [
+            'currency' => 'inr'
+        ];
+
+        return App\Models\User::find(6)->downloadInvoice('in_1IPhKsFv5ObAscf6nZgLHyXj', [
+            'vendor' => 'vendor Gowtham',
+            'product' => 'laravel product Gowtham',
+            ], 'mera-invoice-hai');
+
+        // $user = User::find(auth()->user()->id)->createAsStripeCustomer();
+
+        // $user = User::find(auth()->user()->id)->newSubscription('tshirt', 'price_1IPhNcFv5ObAscf6X21PoW6H')->add();
+        // $userBefore = User::find(1)->paymentMethods();
+
+        // deltes payment methods
+        // $del = User::find(1)->paymentMethods()->map(function($paymentMethod) {
+        //     $paymentMethod->delete();
+        // });
+
+        // $userAfter = User::find(1)->paymentMethods();
+
+        // dd($user);
+    } catch (\Exception $e) {
+        
+        dd($e->getMessage());
+    }
+
+
+});
+
+
 Route::get('test', function() {
     // create stripe customer
 

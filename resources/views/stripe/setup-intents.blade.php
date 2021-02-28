@@ -14,12 +14,24 @@
                     {{-- Stripe Code --}}
                     <input id="card-holder-name" type="text" class="my-4">
 
-                    <div class="my-2 p-4 bg-blue-100">
-                        <label for="monthly">Monthly</label>
-                        <input type="radio" name="plan" id="monthly" value="price_1IP1fyK7zdMbQWQZU4BP9hnB" >
+                    {{-- <div class="my-2 p-4 bg-blue-100">
+                        <label for="standard">Monthly</label>
+                        <input type="radio" name="plan" id="standard" value="price_1IP87ZGAqYFngkaCReETBg6x" >
     
-                        <label for="annually">Annually</label>
-                        <input type="radio" name="plan" id="annually" value="price_1IP1fyK7zdMbQWQZuHkDIBjh" >
+                        <label for="premium">Annually</label>
+                        <input type="radio" name="plan" id="premium" value="price_1IP87bGAqYFngkaCsoMlcIbq" >
+                    </div> --}}
+                    <div class="my-2 p-4 bg-blue-100">
+                        <label for="standard">Standard</label>
+                        {{-- <input type="radio" name="plan" id="standard" value="price_1IP8NkGAqYFngkaCQvx3NEMO" > --}}
+                        {{-- <input type="radio" name="plan" id="standard" value="price_1IPh7uFv5ObAscf6kMXjZkLF" > --}}
+                        {{-- <input type="radio" name="plan" id="standard" value="price_1IPh7uFv5ObAscf6kMXjZkLF" >  --}}
+                        <input type="radio" name="plan" id="standard" value="price_1IPhNdFv5ObAscf6zhYRTHZY" > 
+    
+                        <label for="premium">Premium</label>
+                        {{-- <input type="radio" name="plan" id="premium" value="price_1IP8NkGAqYFngkaCnlooj0JL" > --}}
+                        {{-- <input type="radio" name="plan" id="premium" value="price_1IPh7uFv5ObAscf61wQnBhpw" >  --}}
+                        <input type="radio" name="plan" id="premium" value="price_1IPhNcFv5ObAscf6X21PoW6H" > 
                     </div>
 
                     <!-- Stripe Elements Placeholder -->
@@ -30,6 +42,9 @@
                     </button>
                 </form>
 
+
+
+                <input type="hidden" id="stripe-id" value={{ env("STRIPE_KEY") }} >
             </div>
         </div>
     </div>
@@ -43,7 +58,8 @@
         // const Swal = require('sweetalert2');
 
         // two
-        const stripe = Stripe('pk_test_51IOF6DK7zdMbQWQZfWD7VRjJhYQdFlD1ZYYL4XA37LmbNW9okVngZrQllA4bUDVDontfnsrxnbfVDpKNoXxbkPmK00OzRCY5g0');
+        var stripe_key = document.querySelector("#stripe-id").value;
+        const stripe = Stripe(stripe_key);
 
         const elements = stripe.elements();
         const cardElement = elements.create('card');
